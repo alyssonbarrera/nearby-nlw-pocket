@@ -9,6 +9,8 @@ import Foundation
 import UIKit
 
 class WelcomeView: UIView {
+    var didTapButton: (() -> Void?)?
+    
     private let logoImageView: UIImageView = {
         let image = UIImageView(image: UIImage(named: "logo"))
         image.contentMode = .scaleAspectFit
@@ -57,6 +59,7 @@ class WelcomeView: UIView {
         button.titleLabel?.font = Typography.action
         button.setTitleColor(Colors.gray100, for: .normal)
         button.layer.cornerRadius = 12
+        button.addTarget(self, action: #selector(didTap), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
@@ -110,6 +113,11 @@ class WelcomeView: UIView {
         ])
     }
     
+    @objc
+     private func didTap() {
+         didTapButton?()
+     }
+    
     private func setupTips() {
         let tipOne = TipsView(icon: UIImage(named: "mapIcon") ?? UIImage(),
                               title: "Encontre estabelecimentos",
@@ -127,4 +135,5 @@ class WelcomeView: UIView {
         tipsStackView.addArrangedSubview(tipTwo)
         tipsStackView.addArrangedSubview(tipThree)
     }
+    
 }
